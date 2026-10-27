@@ -36,4 +36,13 @@ public class AlatLab extends Aset {
     public JenisAset getJenis() {
         return JenisAset.ALAT_LAB;
     }
+
+    @Override
+    public long hitungDenda(int hariTerlambat) {
+        if (hariTerlambat < 0) {
+            throw new IllegalArgumentException("Hari terlambat tidak boleh negatif");
+        }
+
+        return (long) hariTerlambat * 4 * id.ac.upb.asetpinjam.config.Varian.aktif().dendaPerHari;
+    }
 }

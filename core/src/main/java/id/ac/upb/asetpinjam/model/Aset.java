@@ -1,15 +1,19 @@
 package id.ac.upb.asetpinjam.model;
 
+import id.ac.upb.asetpinjam.config.Varian;
 import id.ac.upb.asetpinjam.kontrak.DapatDipinjam;
 
 /**
  * Aset yang dapat dipinjam.
  *
- * <p>Minggu 2: lengkapi field, konstruktor, getter/setter, dan validasi (encapsulation).
+ * <p>
+ * Minggu 2: lengkapi field, konstruktor, getter/setter, dan validasi
+ * (encapsulation).
  * Minggu 3: tambahkan getJenis() di tiap subclass.
  * Minggu 4: hitungDenda() dioverride di tiap subclass.
  * Minggu 5: isi bisaDipinjam() dan ubah menjadi class abstrak
- * (TestSupport.aset(...) di folder test menyesuaikan sendiri, lihat docs/minggu-05.md).
+ * (TestSupport.aset(...) di folder test menyesuaikan sendiri, lihat
+ * docs/minggu-05.md).
  */
 public class Aset implements DapatDipinjam {
 
@@ -29,8 +33,7 @@ public class Aset implements DapatDipinjam {
     private static String validasiTeks(String nilai, String namaField) {
         if (nilai == null || nilai.trim().isEmpty()) {
             throw new IllegalArgumentException(
-                namaField + " tidak boleh null atau kosong"
-            );
+                    namaField + " tidak boleh null atau kosong");
         }
 
         return nilai.trim();
@@ -81,19 +84,26 @@ public class Aset implements DapatDipinjam {
         this.kondisi = kondisi;
     }
 
-    /** TODO minggu 5: true hanya jika status TERSEDIA dan kondisi bukan RUSAK_BERAT. */
+    /**
+     * TODO minggu 5: true hanya jika status TERSEDIA dan kondisi bukan RUSAK_BERAT.
+     */
     @Override
     public boolean bisaDipinjam() {
         throw new UnsupportedOperationException("TODO minggu 5");
     }
 
-    /** TODO minggu 3: dioverride tiap subclass agar mengembalikan jenis yang benar. */
+    /**
+     * TODO minggu 3: dioverride tiap subclass agar mengembalikan jenis yang benar.
+     */
     public JenisAset getJenis() {
         throw new UnsupportedOperationException("TODO minggu 3");
     }
 
-    /** TODO minggu 4: denda keterlambatan. Dioverride tiap subclass (aturan di docs/aturan-bisnis.md). */
     public long hitungDenda(int hariTerlambat) {
-        throw new UnsupportedOperationException("TODO minggu 4");
+        if (hariTerlambat < 0) {
+            throw new IllegalArgumentException("Hari terlambat tidak boleh negatif");
+        }
+
+        return (long) hariTerlambat * Varian.aktif().dendaPerHari;
     }
 }

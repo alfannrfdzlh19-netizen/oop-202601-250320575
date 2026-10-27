@@ -36,4 +36,13 @@ public class Laptop extends Aset {
     public JenisAset getJenis() {
         return JenisAset.LAPTOP;
     }
+
+    @Override
+    public long hitungDenda(int hariTerlambat) {
+        if (hariTerlambat < 0) {
+            throw new IllegalArgumentException("Hari terlambat tidak boleh negatif");
+        }
+
+        return (long) hariTerlambat * 2 * id.ac.upb.asetpinjam.config.Varian.aktif().dendaPerHari;
+    }
 }
