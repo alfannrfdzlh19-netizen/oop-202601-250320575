@@ -28,3 +28,19 @@ Salin setiap pertanyaan ambigu (nomor 1 sampai 7) ke sini dan jawab. Contoh:
 ## Asumsi lain
 
 Tambahkan di sini keputusan lain yang Anda ambil: rumus denda progresif, perubahan skema database, format error API, dan seterusnya.
+
+## Rumus Denda Progresif
+
+**Pertanyaan:** Bagaimana rumus perhitungan denda progresif?
+
+**Keputusan:** Menggunakan rumus denda flat ditambah biaya progresif sebesar jumlah hari keterlambatan dikalikan tarif denda per hari.
+
+Rumus:
+
+Denda Progresif = Denda Flat + (Hari Terlambat × Tarif Harian)
+
+**Alasan:** Rumus ini sederhana dan memastikan denda progresif tidak lebih murah daripada denda flat. Semakin lama keterlambatan, semakin besar denda yang harus dibayar.
+
+**Dampak ke kode:** Diterapkan pada class `DendaProgresif.java` melalui interface `AturanDenda`.
+
+**Tes pembuktian:** Denda 0 hari bernilai 0, denda progresif tidak lebih murah daripada denda flat, nilainya tidak menurun ketika hari keterlambatan bertambah, dan pada hari ke-30 nilainya lebih besar daripada denda flat.

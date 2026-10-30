@@ -15,8 +15,7 @@ import id.ac.upb.asetpinjam.kontrak.DapatDipinjam;
  * (TestSupport.aset(...) di folder test menyesuaikan sendiri, lihat
  * docs/minggu-05.md).
  */
-public class Aset implements DapatDipinjam {
-
+public abstract class Aset implements DapatDipinjam {
     private final String kode;
     private String nama;
     private StatusAset status = StatusAset.TERSEDIA;
@@ -89,7 +88,8 @@ public class Aset implements DapatDipinjam {
      */
     @Override
     public boolean bisaDipinjam() {
-        throw new UnsupportedOperationException("TODO minggu 5");
+        return status == StatusAset.TERSEDIA
+                && kondisi != Kondisi.RUSAK_BERAT;
     }
 
     /**
@@ -99,11 +99,5 @@ public class Aset implements DapatDipinjam {
         throw new UnsupportedOperationException("TODO minggu 3");
     }
 
-    public long hitungDenda(int hariTerlambat) {
-        if (hariTerlambat < 0) {
-            throw new IllegalArgumentException("Hari terlambat tidak boleh negatif");
-        }
-
-        return (long) hariTerlambat * Varian.aktif().dendaPerHari;
-    }
+    public abstract long hitungDenda(int hariTerlambat);
 }
