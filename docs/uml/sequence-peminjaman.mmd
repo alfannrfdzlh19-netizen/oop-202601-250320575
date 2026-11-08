@@ -1,0 +1,18 @@
+sequenceDiagram
+    autonumber
+    actor Pengguna
+    participant Jadwal as JadwalPeminjaman
+
+    Note over Pengguna,Jadwal: Rancangan alur pengajuan. Metode ajukan() dan bentrok() masih TODO.
+
+    Pengguna->>Jadwal: ajukan(peminjaman)
+    Jadwal->>Jadwal: bentrok(peminjaman)
+
+    alt Skenario sukses (tidak bentrok)
+        Jadwal-->>Jadwal: Tidak ditemukan bentrok
+        Jadwal->>Jadwal: tambah(peminjaman)
+        Jadwal-->>Pengguna: Pengajuan berhasil
+    else Skenario bentrok
+        Jadwal-->>Jadwal: Ditemukan jadwal bentrok
+        Jadwal-->>Pengguna: PeminjamanBentrokException
+    end
