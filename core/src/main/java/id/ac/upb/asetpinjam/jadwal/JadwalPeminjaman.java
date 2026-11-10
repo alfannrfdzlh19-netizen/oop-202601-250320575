@@ -8,7 +8,9 @@ import java.util.Map;
 /**
  * Jadwal peminjaman di memori.
  *
- * <p>Minggu 7: bentrok, semuaUrutMulai, perAset, hapus. Minggu 9: ajukan (melempar exception).
+ * <p>
+ * Minggu 7: bentrok, semuaUrutMulai, perAset, hapus. Minggu 9: ajukan (melempar
+ * exception).
  * tambah() DISEDIAKAN dan sengaja TIDAK memeriksa apa pun.
  */
 public class JadwalPeminjaman {
@@ -34,32 +36,69 @@ public class JadwalPeminjaman {
     }
 
     /**
-     * TODO minggu 7: true jika {@code baru} bentrok dengan peminjaman yang sudah ada untuk ASET YANG SAMA.
-     * Definisi "bentrok" di batas waktu (selesai sama dengan mulai) adalah KEPUTUSAN ANDA (docs/asumsi.md).
+     * TODO minggu 7: true jika {@code baru} bentrok dengan peminjaman yang sudah
+     * ada untuk ASET YANG SAMA.
+     * Definisi "bentrok" di batas waktu (selesai sama dengan mulai) adalah
+     * KEPUTUSAN ANDA (docs/asumsi.md).
      */
     public boolean bentrok(Peminjaman baru) {
-        throw new UnsupportedOperationException("TODO minggu 7: bentrok");
+        for (Peminjaman lama : daftar) {
+
+            // Periksa apakah kode aset sama
+            boolean asetSama = lama.getAset().getKode()
+                    .equals(baru.getAset().getKode());
+
+            // Periksa apakah waktu saling tumpang tindih
+            boolean waktuBentrok = lama.getMulai().isBefore(baru.getSelesai())
+                    && baru.getMulai().isBefore(lama.getSelesai());
+
+            if (asetSama && waktuBentrok) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    /** TODO minggu 7: semua peminjaman, diurutkan menurut waktu mulai (gunakan Comparator). */
+    /**
+     * TODO minggu 7: semua peminjaman, diurutkan menurut waktu mulai (gunakan
+     * Comparator).
+     */
     public List<Peminjaman> semuaUrutMulai() {
-        throw new UnsupportedOperationException("TODO minggu 7: semuaUrutMulai");
+        List<Peminjaman> hasil = new ArrayList<>(daftar);
+
+        hasil.sort(
+                java.util.Comparator.comparing(Peminjaman::getMulai));
+
+        return hasil;
     }
 
     /** TODO minggu 7: peminjaman dikelompokkan menurut kode aset. */
     public Map<String, List<Peminjaman>> perAset() {
-        throw new UnsupportedOperationException("TODO minggu 7: perAset");
+        Map<String, List<Peminjaman>> hasil = new java.util.HashMap<>();
+
+        for (Peminjaman p : daftar) {
+            String kodeAset = p.getAset().getKode();
+
+            hasil.computeIfAbsent(kodeAset, k -> new ArrayList<>()).add(p);
+        }
+
+        return hasil;
     }
 
-    /** TODO minggu 7: hapus peminjaman berdasarkan id. True jika ada yang terhapus. */
+    /**
+     * TODO minggu 7: hapus peminjaman berdasarkan id. True jika ada yang terhapus.
+     */
     public boolean hapus(String id) {
-        throw new UnsupportedOperationException("TODO minggu 7: hapus");
+        return daftar.removeIf(p -> p.getId().equals(id));
     }
 
     /**
      * TODO minggu 9: periksa lalu tambahkan.
-     * Bentrok: PeminjamanBentrokException. Peminjam sudah memegang {@link #kuotaLaptop()} laptop yang
-     * aktif (status DISETUJUI atau DIPINJAM) dan mengajukan laptop lagi: KuotaHabisException.
+     * Bentrok: PeminjamanBentrokException. Peminjam sudah memegang
+     * {@link #kuotaLaptop()} laptop yang
+     * aktif (status DISETUJUI atau DIPINJAM) dan mengajukan laptop lagi:
+     * KuotaHabisException.
      */
     public void ajukan(Peminjaman baru) {
         throw new UnsupportedOperationException("TODO minggu 9: ajukan");

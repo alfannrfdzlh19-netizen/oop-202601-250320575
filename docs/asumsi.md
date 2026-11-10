@@ -44,3 +44,11 @@ Denda Progresif = Denda Flat + (Hari Terlambat × Tarif Harian)
 **Dampak ke kode:** Diterapkan pada class `DendaProgresif.java` melalui interface `AturanDenda`.
 
 **Tes pembuktian:** Denda 0 hari bernilai 0, denda progresif tidak lebih murah daripada denda flat, nilainya tidak menurun ketika hari keterlambatan bertambah, dan pada hari ke-30 nilainya lebih besar daripada denda flat.
+
+## Batas Waktu Bentrok Peminjaman
+
+- **Pertanyaan:** Apakah dua peminjaman pada aset yang sama dianggap bentrok jika waktu selesai peminjaman pertama sama dengan waktu mulai peminjaman kedua?
+- **Keputusan:** Tidak dianggap bentrok jika waktu selesai peminjaman pertama sama dengan waktu mulai peminjaman kedua.
+- **Alasan:** Peminjaman pertama sudah selesai ketika peminjaman kedua dimulai, sehingga aset dapat digunakan secara bergantian tanpa terjadi tumpang tindih waktu.
+- **Dampak ke kode:** Diterapkan pada method `bentrok()` di class `JadwalPeminjaman.java`.
+- **Tes yang membuktikan:** `BatasBentrokTest.java`, menguji dua peminjaman yang memiliki waktu selesai dan waktu mulai yang sama.

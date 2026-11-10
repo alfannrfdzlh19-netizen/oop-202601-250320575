@@ -1,23 +1,36 @@
 package id.ac.upb.asetpinjam.mahasiswa;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import static id.ac.upb.asetpinjam.TestSupport.pinjam;
+import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * FOLDER INI MILIK ANDA. Tulis tes Anda sendiri di sini (minggu 7 dan seterusnya).
- *
- * <p>Tes dosen sengaja tidak menentukan: apakah peminjaman 09:00-11:00 dan 11:00-13:00 pada aset yang sama
- * bentrok? Putuskan, catat alasannya di docs/asumsi.md, lalu tuliskan tesnya di sini.
- * Hapus @Disabled setelah Anda mengisinya.
- *
- * <p>Syarat minggu 10: folder ini memuat minimal 8 tes (tidak termasuk contoh bawaan ini).
- */
+import id.ac.upb.asetpinjam.jadwal.JadwalPeminjaman;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
+
+@Tag("week7")
 class BatasBentrokTest {
 
     @Test
-    @Disabled("Isi dengan keputusan Anda tentang batas waktu bentrok")
     void selesaiSamaDenganMulai() {
-        // TODO: buat dua peminjaman pada aset yang sama, satu selesai tepat saat yang lain mulai,
-        // lalu nyatakan hasil yang Anda putuskan dengan assertThat(...).
+        JadwalPeminjaman jadwal = new JadwalPeminjaman(1);
+
+        // Peminjaman pertama: pukul 09.00 sampai 11.00
+        jadwal.tambah(pinjam(
+                "1",
+                id.ac.upb.asetpinjam.TestSupport.peminjam("P1"),
+                id.ac.upb.asetpinjam.TestSupport.ruang("R-1"),
+                9, 11
+        ));
+
+        // Peminjaman kedua: pukul 11.00 sampai 13.00
+        var baru = pinjam(
+                "2",
+                id.ac.upb.asetpinjam.TestSupport.peminjam("P2"),
+                id.ac.upb.asetpinjam.TestSupport.ruang("R-1"),
+                11, 13
+        );
+
+        // Tidak bentrok karena waktu selesai sama dengan waktu mulai.
+        assertThat(jadwal.bentrok(baru)).isFalse();
     }
 }
